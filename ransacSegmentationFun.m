@@ -10,7 +10,7 @@ i = 1;
 while (size(XYZ, 1) > 3)
  
     %set a RANSAC threshold appropriate for your data. In this case RANSAC threshold is set to 1.
-    [B, P, inliers, A] = ransacfitplane(XYZ', ransacThreshold);
+    [~, ~, inliers, ~] = ransacfitplane(XYZ', ransacThreshold);
  
     for j = 1 : size(inliers, 1)
      
@@ -24,7 +24,7 @@ while (size(XYZ, 1) > 3)
  
     i = i + 1;
  
-    clear B P inliers A inliersXYZ
+    clear inliers inliersXYZ
 end
 
 end

@@ -29,7 +29,7 @@ SF1 = strcat(s1,s2);
 s11 = 'LABFeatures';
 SF2 = strcat(s11,s2);
 
-dlmwrite( SF1, RGBvalues);
+dlmwrite(SF1, RGBvalues);
 dlmwrite(SF2, Labvalues);
 
 end
