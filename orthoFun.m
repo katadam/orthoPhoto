@@ -1,4 +1,4 @@
-function [orthoImage, orthoImageCoordinates, rmat] = orthoFun(allCloud, indexing)
+function [orthoImage, orthoImageCoordinates, rmat] = orthoFun(allCloud, UAVimagesFolder)
 
 point1 = allCloud(1,1:3)';
 point2 = allCloud(round(size(allCloud,1)/2) ,1:3)';
@@ -44,9 +44,9 @@ XYZ = pointsAll;
 
 
 format long 
-list = dir('*.txt');
+list = dir(fullfile(UAVimagesFolder,'*.txt'));
 projectionMatrices = zeros(3,4,size(list,1));
-imagesAll = dir('*.jpg');
+imagesAll = dir(fullfile(UAVimagesFolder,'*.jpg'));
 
 for i = 1 : size(list,1)
     V = struct2cell(list(i));
@@ -71,20 +71,18 @@ maxX = max(XYZ(:,1));
 minY = min(XYZ(:,2));
 maxY = max(XYZ(:,2));
 
-meanZ = mean(XYZ(:,3));
+% meanZ = mean(XYZ(:,3));
 
 step = 0.001;
 
 indexX = 1;
 
 
-for X = minX : step : maxX
-%for X = minX : step : minX + step*500
+for X = minX : step : maxX %for X = minX : step : minX + step*500
    
     indexY = 1;
     
-   for Y = minY : step : maxY
-   %for Y = minY : step : minY + step*500
+    for Y = minY : step : maxY %for Y = minY : step : minY + step*500
         
         rgbCour(1) = 0;
         rgbCour(2) = 0;
@@ -92,22 +90,22 @@ for X = minX : step : maxX
         counter = 0;
         
         distances = sqrt((X-XYZ(:,1)).^2 + (Y-XYZ(:,2)).^2);
-        [minimum,index] = min(distances);
+        [~,index] = min(distances);
         Z = XYZ(index,3);
         
         %get back to the original cloud
-
+        
         pointInitial = rmat'*[X; Y; Z];
         Xinit = pointInitial(1);
         Yinit = pointInitial(2);
         Zinit = pointInitial(3);
         
-%         distancesInit = sqrt((Xinit-allCloud(:,1)).^2 + (Yinit-allCloud(:,2)).^2 + Zinit-allCloud(:,3).^2);
-%         [minimumInit, indexInit] = min(dinstancesInit);
-%         
-%         
-%         Xinit_p =
-            
+        %         distancesInit = sqrt((Xinit-allCloud(:,1)).^2 + (Yinit-allCloud(:,2)).^2 + Zinit-allCloud(:,3).^2);
+        %         [minimumInit, indexInit] = min(dinstancesInit);
+        %
+        %
+        %         Xinit_p =
+        
         for i = 1 : size(list,1)
             
             imageN = images{i};
@@ -115,31 +113,31 @@ for X = minX : step : maxX
             points = [Xinit; Yinit; Zinit; 1];
             
             point = P*points;
-
+            
             x(i,1) = point(1)/point(3);
             x(i,2) = point(2)/point(3);
             
-       % end
+            % end
             
-            if(x(i,1)) < 1 
+            if(x(i,1)) < 1
                 x(i,1) = 1;
             end
-         
-              if(x(i,2)) < 1 
+            
+            if(x(i,2)) < 1
                 x(i,2) = 1;
             end
-
+            
             if (x(i,2) >1 && x(i,2)<size(imageN,1) && x(i,1)>1 && x(i,1)<size(imageN,2))
                 counter = counter+1;
                 i;
                 rgbCour(1) = double(imageN(round(x(i,2)), round(x(i,1)), 1)) + double(rgbCour(1));
                 rgbCour(2) = double(imageN(round(x(i,2)), round(x(i,1)), 2)) + double(rgbCour(2));
-                rgbCour(3) = double(imageN(round(x(i,2)), round(x(i,1)), 3)) + double(rgbCour(3));   
+                rgbCour(3) = double(imageN(round(x(i,2)), round(x(i,1)), 3)) + double(rgbCour(3));
             end
         end
-          
         
-        %clear x 
+        
+        %clear x
         
         %indexX
         %indexY
@@ -153,29 +151,20 @@ for X = minX : step : maxX
         
         indexY = indexY + 1;
         
-   end
-     
-     s1 = 'orthoImage';
-     s2 = num2str(indexing);
-     s3 = strcat(s1,s2);
-     imwrite(uitn8(orthoImage), s3);
-     
-     s11 = 'orthoImageCoordinates';
-     s22 = num2string(indexing);
-     s33 = strcat(s11,s22);
-     dlmwrite(s33,orthoImageCoordinates);
-     
-     indexX = indexX + 1;
-        
-     clear rgbCour 
-        
-end
- 
-end
- 
-                
-
+    end
     
+    
+    indexX = indexX + 1;
+    
+    clear rgbCour
+    
+end
+
+end
+
+
+
+
 
 
 
