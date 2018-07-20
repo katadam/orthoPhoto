@@ -1,4 +1,4 @@
-function [orthoImage, orthoImageCoordinates, rmat] = orthoFun(allCloud)
+function [orthoImage, orthoImageCoordinates, rmat] = orthoFun(allCloud, indexing)
 
 point1 = allCloud(1,1:3)';
 point2 = allCloud(round(size(allCloud,1)/2) ,1:3)';
@@ -153,8 +153,18 @@ for X = minX : step : maxX
         
         indexY = indexY + 1;
         
-     end
-        
+   end
+     
+     s1 = 'orthoImage';
+     s2 = num2str(indexing);
+     s3 = strcat(s1,s2);
+     imwrite(uitn8(orthoImage), s3);
+     
+     s11 = 'orthoImageCoordinates';
+     s22 = num2string(indexing);
+     s33 = strcat(s11,s22);
+     dlmwrite(s33,orthoImageCoordinates);
+     
      indexX = indexX + 1;
         
      clear rgbCour 
