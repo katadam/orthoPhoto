@@ -158,7 +158,7 @@ for X = minX : step : maxX
      s1 = 'orthoImage';
      s2 = num2str(indexing);
      s3 = strcat(s1,s2);
-     imwrite(uint(orthoImage), s3);
+     imwrite(uint8(orthoImage), s3);
      
      s11 = 'orthoImageCoordinates';
      s22 = num2string(indexing);
