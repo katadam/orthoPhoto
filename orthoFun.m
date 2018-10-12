@@ -155,14 +155,16 @@ for X = minX : step : maxX
         
    end
      
-     s1 = 'orthoImage';
-     s2 = num2str(indexing);
-     s3 = strcat(s1,s2);
+     s2 = 'orthoImage';
+     s1 = num2str(indexing);
+     s4 = '.jpg'; 
+     s3 = strcat(s1,s2,s4);
      imwrite(uint8(orthoImage), s3);
+  
      
      s11 = 'orthoImageCoordinates';
-     s22 = num2string(indexing);
-     s33 = strcat(s11,s22);
+    % s22 = num2string(indexing);
+     s33 = strcat(s1, s11);
      dlmwrite(s33,orthoImageCoordinates);
      
      indexX = indexX + 1;

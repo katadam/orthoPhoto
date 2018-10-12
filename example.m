@@ -28,7 +28,7 @@ for index = 1 : size(planes,2)
     if exist(fullorthoFilename, 'file')
         load fullorthoFilename
     else
-        [orthoImage, orthoImageCoordinates, rmat] = orthoFun(planeD, '../ruemonge/undistorted_images_and_camera_matrix/');
+        [orthoImage, orthoImageCoordinates, rmat] = orthoFun(planeD, 'D:\hayko-all\ruemonge\undistorted_images_and_camera_matrix\');
         save(fullorthoFilename,'orthoImage','orthoImageCoordinates','rmat');
     end
     %created the orthoImage and the correspondence betweeen orthoImage and
